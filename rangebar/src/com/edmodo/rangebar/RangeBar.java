@@ -521,7 +521,37 @@ public class RangeBar extends View {
         return mRightIndex;
     }
 
+    /**
+     * Sets the index of the left-most thumb.
+     *
+     * @param index new index
+     */
+    public void setLeftIndex(int index) {
+        mLeftIndex = index;
+        updateSize();
+    }
+
+    /**
+     * Sets the index of the right-most thumb.
+     *
+     * @param index new index
+     */
+    public void setRightIndex(int index) {
+        mRightIndex = index;
+        updateSize();
+    }
+
     // Private Methods /////////////////////////////////////////////////////////
+
+    /**
+     * Invoke onSizeChanged
+     *
+     */
+    private void updateSize() {
+        int width = getWidth();
+        int height = getHeight();
+        onSizeChanged(width, height, width, height);
+    }
 
     /**
      * Does all the functions of the constructor for RangeBar. Called by both
