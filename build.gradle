@@ -1,12 +1,12 @@
 buildscript {
 
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         // Plug-in release notes: http://tools.android.com/tech-docs/new-build-system
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.3.2'
     }
 }
 
