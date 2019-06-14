@@ -772,16 +772,16 @@ public class RangeBar extends View {
 			float rightThumbXDistance = Math.abs(mRightThumb.getX() - x);
 
 			if (leftThumbXDistance < rightThumbXDistance) {
-				mLeftThumb.setX(x);
+                mLeftThumb.setX(Math.max(x, mLeftThumb.getHalfWidth()));
 				releaseThumb(mLeftThumb);
 			} else {
-				mRightThumb.setX(x);
+                mRightThumb.setX(Math.min(x, getMeasuredWidth() - mRightThumb.getHalfWidth()));
 				releaseThumb(mRightThumb);
 			}
 
 	        // Get the updated nearest tick marks for each thumb.
-	        final int newLeftIndex = mBar.getNearestTickIndex(mLeftThumb);
-	        final int newRightIndex = mBar.getNearestTickIndex(mRightThumb);
+            final int newLeftIndex = Math.max(0, mBar.getNearestTickIndex(mLeftThumb));
+            final int newRightIndex = Math.min(mBar.getNearestTickIndex(mRightThumb), mTickCount - 1);
 
 	        // If either of the indices have changed, update and call the listener.
 	        if (newLeftIndex != mLeftIndex || newRightIndex != mRightIndex) {
