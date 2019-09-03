@@ -771,13 +771,18 @@ public class RangeBar extends View {
 			float leftThumbXDistance = Math.abs(mLeftThumb.getX() - x);
 			float rightThumbXDistance = Math.abs(mRightThumb.getX() - x);
 
-			if (leftThumbXDistance < rightThumbXDistance) {
-                mLeftThumb.setX(Math.max(x, mLeftThumb.getHalfWidth()));
-				releaseThumb(mLeftThumb);
-			} else {
-                mRightThumb.setX(Math.min(x, getMeasuredWidth() - mRightThumb.getHalfWidth()));
-				releaseThumb(mRightThumb);
-			}
+            if (leftThumbXDistance < rightThumbXDistance) {
+                shiftLeftThumb(x);
+            } else if (leftThumbXDistance > rightThumbXDistance) {
+                shiftRightThumb(x);
+            } else {
+                boolean tapOnTheLeft = mLeftThumb.getX() - x > 0;
+                if (tapOnTheLeft) {
+                    shiftLeftThumb(x);
+                } else {
+                    shiftRightThumb(x);
+                }
+            }
 
 	        // Get the updated nearest tick marks for each thumb.
             final int newLeftIndex = Math.max(0, mBar.getNearestTickIndex(mLeftThumb));
@@ -795,6 +800,16 @@ public class RangeBar extends View {
 	        }
 		}
 	}
+
+    private void shiftLeftThumb(float x) {
+        mLeftThumb.setX(Math.max(x, mLeftThumb.getHalfWidth()));
+        releaseThumb(mLeftThumb);
+    }
+
+    private void shiftRightThumb(float x) {
+        mRightThumb.setX(Math.min(x, getMeasuredWidth() - mRightThumb.getHalfWidth()));
+        releaseThumb(mRightThumb);
+    }
 
     /**
      * Handles a {@link MotionEvent#ACTION_MOVE} event.
